@@ -83,7 +83,7 @@ user: external@imagineapps.com
 password: external123
 ```
 
-Para poder acceder a la versión desplegada realiza clic [acá]()
+Para poder acceder a la versión desplegada realiza clic [acá](https://flourishing-druid-f19ce6.netlify.app)
 
 
 
