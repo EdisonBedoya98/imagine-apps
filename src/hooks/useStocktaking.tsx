@@ -51,7 +51,7 @@ export function useStocktaking() {
       });
       form.resetFields();
     } catch (error) {
-      console.error("Error adding document: ", error);
+      setIsError(true);
     } finally {
       setIsRegistering(false);
     }

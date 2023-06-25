@@ -7,7 +7,6 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
 
-  console.log();
   const auth = getAuth();
 
   useEffect(() => {

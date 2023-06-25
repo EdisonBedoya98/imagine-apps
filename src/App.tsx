@@ -26,9 +26,6 @@ function App() {
 
   useEffect(() => {
     const auth = getAuth();
-    console.log("SE EJEUCTA GLOBAL");
-    const user = auth.currentUser;
-    console.log("🚀 ~ file: App.tsx:30 ~ useEffect ~ user:", user);
     onAuthStateChanged(auth, (user) => {
       // Update the current user
       dispatch(
