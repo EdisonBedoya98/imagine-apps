@@ -1,12 +1,11 @@
-import { useState } from "react";
 import {
   OrderedListOutlined,
   FormOutlined,
-  StockOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavBar } from "../hooks/useNavBar";
 
 const items: MenuProps["items"] = [
   {
@@ -19,23 +18,15 @@ const items: MenuProps["items"] = [
     key: "list-companies",
     icon: <OrderedListOutlined />,
   },
-  /* {
-    label: "Stocktaking",
-    key: "stocktaking",
-    icon: <StockOutlined />,
-  }, */
+  {
+    label: "Sign out",
+    key: "sign-out",
+    icon: <UserOutlined />,
+  },
 ];
 
 export function NavBar() {
-  const [current, setCurrent] = useState("register");
-  const navigate = useNavigate();
-
-  const onClick: MenuProps["onClick"] = (e) => {
-    console.log("click ", e);
-    setCurrent(e.key);
-    navigate(`/${e.key}`);
-  };
-
+  const { current, onClick } = useNavBar();
   return (
     <Menu
       onClick={onClick}

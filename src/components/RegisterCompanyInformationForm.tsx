@@ -1,15 +1,20 @@
-import { Button, Form, Input, InputNumber } from "antd";
-import { useState } from "react";
+import { Button, Form, FormInstance, Input, InputNumber } from "antd";
 import { CompanyInformation } from "../models/interfaces/ImagineApps";
+import { useSelector } from "react-redux";
+import { selectIsAdmin } from "../reducers/imagine-apps/imagine-app.selectors";
 
 export function RegisterCompanyInformationForm({
   onFormSubmit,
   buttonLabel,
+  initialData,
+  form,
 }: {
   onFormSubmit: (companyData: CompanyInformation) => void;
   buttonLabel: string;
+  initialData?: CompanyInformation;
+  form: FormInstance<CompanyInformation>;
 }) {
-  const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
+  const isAdmin = useSelector(selectIsAdmin);
 
   return (
     <Form
@@ -17,8 +22,10 @@ export function RegisterCompanyInformationForm({
       wrapperCol={{ span: 14 }}
       layout="horizontal"
       className="justify-center items-center max-w-3xl"
-      disabled={componentDisabled}
+      disabled={!isAdmin}
       onFinish={onFormSubmit}
+      initialValues={initialData}
+      form={form}
     >
       <Form.Item
         label="Name"

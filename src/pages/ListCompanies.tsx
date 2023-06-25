@@ -1,27 +1,22 @@
-import { List } from "antd";
+import { List, Spin } from "antd";
 import { CompanyItem } from "../components/CompanyItem";
 import { NavBar } from "../components/NavBar";
-import { RegisterCompanyInformationForm } from "../components/RegisterCompanyInformationForm";
-import { CompanyInformation } from "../models/interfaces/ImagineApps";
+import { useListCompanies } from "../hooks/useListCompanies";
 
-const data = [
-  "Racing car sprays burning fuel into crowd.",
-  "Japanese princess to wed commoner.",
-  "Australian walks 100km after outback crash.",
-  "Man charged over missing wedding girl.",
-  "Los Angeles battles huge wildfires.",
-];
 export function ListCompanies() {
+  const { collectionData, isLoading } = useListCompanies();
   return (
     <main>
       <NavBar />
       <section className="grid pt-6 ">
-        <List
-          header={<div>List companies</div>}
-          bordered
-          dataSource={data}
-          renderItem={(item) => <CompanyItem companyName={item} />}
-        />
+        <Spin tip="Loading..." spinning={isLoading}>
+          <List
+            header={<div>List companies</div>}
+            bordered
+            dataSource={collectionData}
+            renderItem={(company) => <CompanyItem company={company} />}
+          />
+        </Spin>
       </section>
     </main>
   );

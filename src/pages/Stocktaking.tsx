@@ -1,44 +1,46 @@
-import { List, Typography } from "antd";
+import { CollapseProps, List, Spin, Typography } from "antd";
 import { NavBar } from "../components/NavBar";
-import { RegisterStocktakingForm } from "../components/RegisterStocktakingForm";
-import { StockItem } from "../components/StockItem";
-import type { CollapseProps } from "antd";
+
 import { Collapse } from "antd";
 import { Button } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
+import { useStocktaking } from "../hooks/useStocktaking";
+import { RegisterStocktakingForm } from "../components/RegisterStocktakingForm";
+import { StockItem } from "../components/StockItem";
 
-const data = [
-  "Racing car sprays burning fuel into crowd.",
-  "Japanese princess to wed commoner.",
-  "Australian walks 100km after outback crash.",
-  "Man charged over missing wedding girl.",
-  "Los Angeles battles huge wildfires.",
-];
-const items: CollapseProps["items"] = [
-  {
-    key: "1",
-    label: "Register new stocktaking",
-    children: (
-      <RegisterStocktakingForm onFormSubmit={(data) => console.log(data)} />
-    ),
-  },
-  {
-    key: "2",
-    label: "List stocktaking",
-    children: (
-      <List
-        header={<div>List stocktaking</div>}
-        bordered
-        dataSource={data}
-        renderItem={(item) => <StockItem companyName={item} />}
-      />
-    ),
-  },
-];
 export function Stocktaking() {
-  const onChange = (key: string | string[]) => {
-    console.log(key);
-  };
+  const { form, onSubmitNewStok, stocktaking, isLoading, isRegistering } =
+    useStocktaking();
+
+  const formAndList: CollapseProps["items"] = [
+    {
+      key: "1",
+      label: "Register new stocktaking",
+      children: (
+        <Spin tip="Loading..." spinning={isRegistering}>
+          <RegisterStocktakingForm
+            onFormSubmit={onSubmitNewStok}
+            form={form}
+            buttonLabel="Add stock"
+          />
+        </Spin>
+      ),
+    },
+    {
+      key: "2",
+      label: "List stocktaking",
+      children: (
+        <Spin tip="Loading..." spinning={isLoading}>
+          <List
+            header={<div>List stocktaking</div>}
+            bordered
+            dataSource={stocktaking}
+            renderItem={(item) => <StockItem stock={item} />}
+          />
+        </Spin>
+      ),
+    },
+  ];
   return (
     <main>
       <NavBar />
@@ -54,7 +56,7 @@ export function Stocktaking() {
         >
           Download stocktaking PDF
         </Button>
-        <Collapse items={items} defaultActiveKey={["2"]} onChange={onChange} />
+        <Collapse items={formAndList} defaultActiveKey={["2"]} />
       </section>
     </main>
   );
