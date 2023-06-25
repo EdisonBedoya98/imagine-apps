@@ -83,9 +83,9 @@ user: external@imagineapps.com
 password: external123
 ```
 
-Para poder acceder a la versión desplegada realiza clic [acá](https://flourishing-druid-f19ce6.netlify.app](https://flourishing-druid-f19ce6.netlify.app/)
+Para poder acceder a la versión desplegada realiza clic [acá](https://flourishing-druid-f19ce6.netlify.app)
 
-### 💾 Features faltantes
+### 🕡 Features faltantes
 
 Por cuestiones de tiempo estas son las features que faltan por implementar
 
