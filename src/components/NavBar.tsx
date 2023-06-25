@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   OrderedListOutlined,
   FormOutlined,
@@ -6,8 +5,7 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
-import { useNavigate } from "react-router-dom";
-import { getAuth } from "firebase/auth";
+import { useNavBar } from "../hooks/useNavBar";
 
 const items: MenuProps["items"] = [
   {
@@ -28,19 +26,7 @@ const items: MenuProps["items"] = [
 ];
 
 export function NavBar() {
-  const [current, setCurrent] = useState("register");
-  const navigate = useNavigate();
-  const auth = getAuth();
-
-  const onClick: MenuProps["onClick"] = (e) => {
-    if (e.key === "sign-out") {
-      auth.signOut();
-      return;
-    }
-    setCurrent(e.key);
-    navigate(`/${e.key}`);
-  };
-
+  const { current, onClick } = useNavBar();
   return (
     <Menu
       onClick={onClick}
