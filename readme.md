@@ -83,13 +83,18 @@ user: external@imagineapps.com
 password: external123
 ```
 
-Para poder acceder a la versión desplegada realiza clic [acá](https://flourishing-druid-f19ce6.netlify.app)
+Para poder acceder a la versión desplegada realiza clic [acá](https://flourishing-druid-f19ce6.netlify.app](https://flourishing-druid-f19ce6.netlify.app/)
 
+### 💾 Features faltantes
+
+Por cuestiones de tiempo estas son las features que faltan por implementar
+
+- Generación de PDF y envio mediante correo electronico que se pueda hacer uso de Firebase para esto ya que ofrece un servicio para hacerlo
+- Asociar inventario a la empresa correspondiente
 
 
 ## Autor ✒️
 
 - **Edison Bedoya García** - [edison](https://github.com/EdisonBedoya98)
 
-La mente es el límite. Mientras que la mente puede imaginar el hecho de que puedes hacer algo, lo puedes hacer, siempre y cuando realmente lo crees 100 por ciento.
-_Arnold Schwarzenegger_
+El valor de una idea radica en su uso - _Thomas Edison_
