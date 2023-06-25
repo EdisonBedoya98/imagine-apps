@@ -1,5 +1,11 @@
 import { Login } from "./pages/Login";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+  Navigate,
+} from "react-router-dom";
 import { RegisterCompany } from "./pages/RegisterCompany";
 import { ListCompanies } from "./pages/ListCompanies";
 import { Stocktaking } from "./pages/Stocktaking";
@@ -28,6 +34,7 @@ function App() {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       // Update the current user
+
       dispatch(
         dispatch(
           setCurrentUserSession({
@@ -67,6 +74,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="*" element={<Navigate to="/register-company" replace />} />
       </Routes>
     </Router>
   );
