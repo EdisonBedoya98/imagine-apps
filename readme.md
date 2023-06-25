@@ -91,6 +91,7 @@ Por cuestiones de tiempo estas son las features que faltan por implementar
 
 - Generación de PDF y envio mediante correo electronico que se pueda hacer uso de Firebase para esto ya que ofrece un servicio para hacerlo
 - Asociar inventario a la empresa correspondiente
+- Posibilidad de usar React Query para invalidación de queries cuando se edita o se agrega una compañia o item de inventario, para que se vea reflejado el cambio inmediatamente
 
 
 ## Autor ✒️
