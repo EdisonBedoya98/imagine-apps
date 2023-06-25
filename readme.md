@@ -5,3 +5,11 @@ corePlugins: {
 preflight: false,
 }
 }
+
+Credentials
+
+user: admin@imagineapps.com
+password: admin123
+
+user: external@imagineapps.com
+password: external123

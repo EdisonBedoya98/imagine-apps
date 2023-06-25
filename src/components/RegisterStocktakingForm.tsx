@@ -1,19 +1,38 @@
-import { Button, Form, Input, InputNumber, Upload } from "antd";
+import { Button, Form, FormInstance, Input, InputNumber, Upload } from "antd";
 import { useState } from "react";
-import { StocktakingFormData } from "../models/interfaces/ImagineApps";
+import {
+  StocktakingFormData,
+  StocktakingFormDataFormated,
+} from "../models/interfaces/ImagineApps";
 import { InboxOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
+import { selectIsAdmin } from "../reducers/imagine-apps/imagine-app.selectors";
 
 export function RegisterStocktakingForm({
   onFormSubmit,
+  form,
+  initialData,
+  buttonLabel,
 }: {
   onFormSubmit: (companyData: StocktakingFormData) => void;
+  form: FormInstance<StocktakingFormData>;
+  initialData?: StocktakingFormDataFormated;
+  buttonLabel: string;
 }) {
-  const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
-
+  const isAdmin = useSelector(selectIsAdmin);
   const normFile = (e: any) => {
-    console.log("Upload event:", e);
     if (Array.isArray(e)) {
       return e;
+    }
+    // Convert the uploaded file to base64
+    if (e && e.fileList && e.fileList[0]) {
+      const reader = new FileReader();
+      reader.readAsDataURL(e.fileList[0].originFileObj);
+      reader.onload = () => {
+        const base64Image = reader.result;
+        // Modify the fileList to include the base64 image
+        e.fileList[0].base64Image = base64Image;
+      };
     }
     return e?.fileList;
   };
@@ -23,8 +42,10 @@ export function RegisterStocktakingForm({
       wrapperCol={{ span: 14 }}
       layout="horizontal"
       className="justify-center items-center max-w-3xl"
-      disabled={componentDisabled}
+      disabled={!isAdmin}
       onFinish={onFormSubmit}
+      form={form}
+      initialValues={initialData}
     >
       <Form.Item
         label="Name"
@@ -80,7 +101,7 @@ export function RegisterStocktakingForm({
 
       <Form.Item label="Imagen">
         <Form.Item
-          name="image"
+          name="images"
           valuePropName="fileList"
           getValueFromEvent={normFile}
           noStyle
@@ -106,7 +127,7 @@ export function RegisterStocktakingForm({
       </Form.Item>
       <Form.Item className="flex justify-center">
         <Button type="primary" htmlType="submit">
-          Add stock
+          {buttonLabel}
         </Button>
       </Form.Item>
     </Form>

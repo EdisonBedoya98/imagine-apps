@@ -1,4 +1,4 @@
-import { Button, List, Typography } from "antd";
+import { Button, List } from "antd";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -8,14 +8,48 @@ import { RegisterCompanyInformationForm } from "./RegisterCompanyInformationForm
 import { useState } from "react";
 import { CompanyInformation } from "../models/interfaces/ImagineApps";
 import { useNavigate } from "react-router-dom";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getFirestore,
+  updateDoc,
+} from "firebase/firestore";
+import { useForm } from "antd/es/form/Form";
+import { useSelector } from "react-redux";
+import { selectIsAdmin } from "../reducers/imagine-apps/imagine-app.selectors";
 
-export function CompanyItem({ companyName }: { companyName: string }) {
+export function CompanyItem({ company }: { company: CompanyInformation }) {
   const navigate = useNavigate();
-  const [isEditing, setIsEditing] = useState(false);
+  const db = getFirestore();
+  const [form] = useForm();
+  const isAdmin = useSelector(selectIsAdmin);
 
-  const onFormSubmit = (companyData: CompanyInformation) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const documentRef = doc(collection(db, "companies"), company.nit);
+
+  const onFormSubmit = async (companyData: CompanyInformation) => {
     console.log(companyData);
+    try {
+      await updateDoc(documentRef, { ...companyData });
+      console.log("Document updated successfully");
+      form.resetFields();
+    } catch (error) {
+      console.error("Error updating document:", error);
+    }
     setIsEditing(false);
+  };
+  const onDeleteDocument = async () => {
+    //loading state
+    console.log(
+      "🚀 ~ file: CompanyItem.tsx:43 ~ onDeleteDocument ~ documentRef:",
+      documentRef
+    );
+    try {
+      await deleteDoc(documentRef);
+    } catch (error) {
+      console.error("Error deleting document:", error);
+    }
   };
 
   return (
@@ -26,6 +60,7 @@ export function CompanyItem({ companyName }: { companyName: string }) {
             type="primary"
             onClick={() => setIsEditing(true)}
             icon={<EditOutlined />}
+            disabled={!isAdmin}
           >
             Edit
           </Button>
@@ -34,7 +69,8 @@ export function CompanyItem({ companyName }: { companyName: string }) {
           <Button
             type="primary"
             icon={<DeleteOutlined />}
-            onClick={() => console.log("Deleteee")}
+            onClick={onDeleteDocument}
+            disabled={!isAdmin}
           >
             Delete
           </Button>
@@ -43,18 +79,20 @@ export function CompanyItem({ companyName }: { companyName: string }) {
           <Button
             type="primary"
             icon={<RocketOutlined />}
-            onClick={() => navigate(`/stocktaking?company=${companyName}`)}
+            onClick={() => navigate(`/stocktaking?company=${company.nit}`)}
           >
             Stocktaking
           </Button>
         ),
       ]}
     >
-      <Typography.Text mark>[ITEM]</Typography.Text> {companyName}
+      {company.name}
       {isEditing && (
         <RegisterCompanyInformationForm
           buttonLabel="Update"
           onFormSubmit={onFormSubmit}
+          initialData={company}
+          form={form}
         />
       )}
     </List.Item>

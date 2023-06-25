@@ -2,11 +2,12 @@ import { useState } from "react";
 import {
   OrderedListOutlined,
   FormOutlined,
-  StockOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
 import { useNavigate } from "react-router-dom";
+import { getAuth } from "firebase/auth";
 
 const items: MenuProps["items"] = [
   {
@@ -19,19 +20,23 @@ const items: MenuProps["items"] = [
     key: "list-companies",
     icon: <OrderedListOutlined />,
   },
-  /* {
-    label: "Stocktaking",
-    key: "stocktaking",
-    icon: <StockOutlined />,
-  }, */
+  {
+    label: "Sign out",
+    key: "sign-out",
+    icon: <UserOutlined />,
+  },
 ];
 
 export function NavBar() {
   const [current, setCurrent] = useState("register");
   const navigate = useNavigate();
+  const auth = getAuth();
 
   const onClick: MenuProps["onClick"] = (e) => {
-    console.log("click ", e);
+    if (e.key === "sign-out") {
+      auth.signOut();
+      return;
+    }
     setCurrent(e.key);
     navigate(`/${e.key}`);
   };
